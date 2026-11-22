@@ -1,0 +1,22 @@
+# Copyright (c) 2026 Daniel Joppi (https://github.com/swarm-routing)
+# SPDX-License-Identifier: GPL-2.0-only
+name: Licence
+
+# core/ is MIT OR GPL-2.0-only and includes only the C++ standard library,
+# other core/ files and swarm-core's dual-licensed core/; everything else is
+# GPL-2.0-only (LICENSING.md).
+on:
+  push:
+    branches: [main]
+  pull_request:
+  merge_group:  # the merge queue runs the required checks on each group (swarm-routing/.github#130)
+
+permissions:
+  contents: read
+
+jobs:
+  headers:
+    uses: swarm-routing/.github/.github/workflows/reusable-licence-check.yml@main
+    with:
+      dual-roots: core/
+      core-roots: core/
