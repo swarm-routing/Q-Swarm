@@ -1,0 +1,4 @@
+# make core-test's and core.yml's CMake trees
+/build/
+# make dist's release asset
+/dist/

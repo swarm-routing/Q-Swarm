@@ -1,0 +1,24 @@
+# Copyright (c) 2026 Daniel Joppi (https://github.com/swarm-routing)
+# SPDX-License-Identifier: GPL-2.0-only
+name: swarm-core pin
+
+# Q-Swarm's core/ builds on swarm-core's core/ at the release swarm-core.lock
+# names, through its vcpkg port. This check (swarm-routing/.github
+# reusable-swarm-core-pin.yml, check-swarm-core-pin.py in vcpkg mode) fails
+# unless the lock verifies against the release, the Makefile and every
+# workflow name its tag (core-deps: the commit the tag names), the vcpkg
+# override and registry baseline name the same version, and when a newer
+# swarm-core release is out; org-bot then opens the bump PR. The check is
+# named `swarm-core / pin`.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  merge_group:  # the merge queue runs the required checks on each group (swarm-routing/.github#130)
+
+permissions:
+  contents: read
+
+jobs:
+  swarm-core:
+    uses: swarm-routing/.github/.github/workflows/reusable-swarm-core-pin.yml@a3155ab8851bab4a54f41b770f22587afee30f2d # main@2026-11-24
