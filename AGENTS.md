@@ -7,10 +7,13 @@ before changing anything. Org-wide conventions:
 
 ## What this repo is
 
-**Status: set up, no protocol code (swarm-routing/.github#881, #35).** The
-source paper is not named yet (#23, the maintainer's); `docs/fidelity.md` is
-started with every paper row `unknown`, and no protocol code lands before it is
-reviewed (golden rule 10). The plan is epic #3 and swarm-routing/.github#672.
+**Status: set up, v0 fidelity sheet from public sources, no protocol code
+(swarm-routing/.github#881, #35).** Q-Swarm names no paper (#23 stays open, the
+maintainer's). Under the maintainer's 2026-11-24 decision (protocols without a
+paper are built first from public sources, swarm-routing/.github#881),
+`docs/fidelity.md` is a v0 whose candidate source is QLFR [ZCX21], with
+Boltzmann selection from [KLM96]. No protocol code lands before the maintainer
+accepts it (golden rule 10). The plan is epic #3 and swarm-routing/.github#672.
 
 Q-Swarm: Q-routing with energy-aware Bellman updates and Boltzmann next-hop
 selection, bridging classic pheromone tables with lightweight on-node
@@ -30,7 +33,7 @@ core/       simulator-agnostic core (no simulator headers; MIT OR GPL-2.0-only, 
                                       make dist, clang-format (check `core`)
 .github/workflows/swarm-core-pin.yml  the swarm-core pin is one release and current (check `swarm-core / pin`)
 .github/workflows/release.yml         reusable-release.yml, vcpkg-ports: q-swarm-core (on the maintainer's request only)
-docs/       fidelity.md (paper -> implementation; paper rows unknown until #23), references.bib,
+docs/       fidelity.md (v0 from public sources: candidate QLFR [ZCX21]; #23 open), references.bib,
             roadmap.md (the release ladder from v0.1.0), adr/, rcapa/
 CITATION.cff   citation metadata (org-sync seed; Commitizen keeps `version:`)
 ```
@@ -159,7 +162,9 @@ Org-wide (1–9), then this repo's own.
     a benchmark arm) lands before `docs/fidelity.md` is reviewed against the
     source paper and accepted by the maintainer. A row the paper does not
     settle is `unknown` or `repo choice: <reason>`, never a guess; the source
-    paper is #23's to name.
+    paper is #23's to name. Until it is named, the sheet is a v0 from public
+    sources (maintainer decision 2026-11-24): every row cites a public
+    source by DOI or URL, never memory.
 11. **`core/` never includes a simulator header**; the adapter only converts
     headers, executes `RouteDecision`s and owns timers/queues (AntHocNet
     golden rules 1–2).
@@ -404,7 +409,7 @@ chat, not the record.
 |--------------|-------|
 | The org's invariants, labels, issue shape | [`swarm-routing/.github` CONTRIBUTING.md](https://github.com/swarm-routing/.github/blob/main/CONTRIBUTING.md) |
 | The plan | epic #3, swarm-routing/.github#672 (decisions 6 and 18), the set-up swarm-routing/.github#881 |
-| The source paper (not named yet) | #23, the maintainer's decision |
+| The source paper (not named yet; v0 candidate QLFR) | #23, the maintainer's decision; `docs/fidelity.md` "The candidate source, and why" |
 | What the paper specifies, and what is still unknown | [`docs/fidelity.md`](docs/fidelity.md), [`docs/references.bib`](docs/references.bib) |
 | Know which release a piece of work serves | [`docs/roadmap.md`](docs/roadmap.md): the release ladder from v0.1.0, exit criteria, non-goals; issues carry `release:` labels |
 | Shared primitives | `swarm-routing/swarm-core` (its vcpkg port in `swarm-routing/vcpkg-registry`) |

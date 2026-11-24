@@ -9,8 +9,11 @@ section a task needs, not the whole file.
 Set up on the org templates (swarm-routing/.github#881, #35), 2026-11-24:
 README, AGENTS/CLAUDE, LICENSING, CITATION.cff, `docs/roadmap.md` (the release
 ladder from v0.1.0), `docs/fidelity.md` started, `docs/references.bib`. No
-protocol code: the source paper is not named (#23), so every paper row of the
-fidelity sheet is `unknown` (AGENTS.md golden rule 10).
+protocol code. The source paper is not named (#23). Under the maintainer's
+2026-11-24 decision, the fidelity sheet is a v0 from public sources: QLFR
+(Zhou, Cao & Xiang, 2021) is the candidate for the energy-aware Bellman
+update, and Kaelbling, Littman & Moore (1996) give Boltzmann selection. Code
+waits for the maintainer to accept it (AGENTS.md golden rule 10).
 
 History: the repository was created under swarm-routing/.github#672 (Phase 3,
 the hexagonal multi-runtime plan) as epic #3. swarm-routing/.github#54 and
@@ -35,5 +38,8 @@ comparator in swarm-routing/sim-tools (swarm-routing/sim-tools#34).
 
 ## Open questions
 
-- Which paper does Q-Swarm reproduce (#23)? Every `unknown` row of
-  `docs/fidelity.md` waits on it, and so does the anchor's trend.
+- Which paper does Q-Swarm reproduce (#23)? The v0 sheet's candidate is QLFR,
+  an underwater protocol. A paper with a terrestrial-WSN trend would give the
+  anchor its source; that anchor row is still `unknown`.
+- Several open values are repo choices waiting for a sweep: α, T, the initial
+  Q, and the neighbour lifetime.
