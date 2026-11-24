@@ -13,7 +13,7 @@
 
 Q-Swarm: Q-routing with energy-aware Bellman updates and Boltzmann next-hop selection, bridging classic pheromone tables with lightweight on-node reinforcement learning, for benchmark comparisons against the swarm protocols.
 
-**Status: set up, v0 fidelity sheet from public sources, no protocol code yet.** Q-Swarm
+**Status: set up; v0 core from public sources.** Q-Swarm
 names no paper of its own
 ([#23](https://github.com/swarm-routing/Q-Swarm/issues/23) stays open for the
 maintainer). Following the maintainer's decision of 2026-11-24 (protocols
@@ -22,8 +22,11 @@ without a paper are built first from public sources), the
 sources**. Its candidate source is QLFR (Zhou, Cao & Xiang, 2021,
 <https://doi.org/10.1109/jiot.2020.3042901>) for the energy-aware Bellman
 update, and Boltzmann exploration (Kaelbling, Littman & Moore, 1996,
-<https://doi.org/10.1613/jair.301>) for next-hop selection. No protocol code is
-written until the maintainer accepts the sheet. The plan is epic
+<https://doi.org/10.1613/jair.301>) for next-hop selection. `core/` holds the
+**v0 built from those secondary sources**: the energy-aware reward and
+`QEnergyUpdater` (a bounded Q-table, the Bellman update, Boltzmann selection),
+with its tests. It is not a reproduction of a paper, and no number from it is a
+benchmark result (the anchor gate is open). The plan is epic
 [#3](https://github.com/swarm-routing/Q-Swarm/issues/3) and
 swarm-routing/.github#672; the release ladder is [docs/roadmap.md](docs/roadmap.md).
 
@@ -63,6 +66,7 @@ To cite this repository, use the “Cite this repository” button (from [CITATI
 Please also cite the work it builds on:
 
 - Y. Zhou, T. Cao, W. Xiang, *Anypath Routing Protocol Design via Q-Learning for Underwater Sensor Networks*, IEEE Internet of Things Journal 8(10), pp. 8173–8190, 2021, [doi:10.1109/jiot.2020.3042901](https://doi.org/10.1109/jiot.2020.3042901). QLFR: the public candidate source for Q-Swarm v0 (energy-aware Bellman update, eqs. 5-8), read from its open preprint arXiv:2002.09623, until #23 names the paper
+- D. H. Joppi, *swarm-core*, 2026, [doi:10.5281/zenodo.24476619](https://doi.org/10.5281/zenodo.24476619). The shared swarm-routing primitives core/ builds on (IEnergy, IRng, rouletteSelect), at the release swarm-core.lock names (v2.0.0)
 
 What this implementation reproduces from its sources, and every deliberate deviation, is in [docs/fidelity.md](docs/fidelity.md).
 

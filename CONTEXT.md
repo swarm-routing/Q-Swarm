@@ -8,12 +8,14 @@ section a task needs, not the whole file.
 
 Set up on the org templates (swarm-routing/.github#881, #35), 2026-11-24:
 README, AGENTS/CLAUDE, LICENSING, CITATION.cff, `docs/roadmap.md` (the release
-ladder from v0.1.0), `docs/fidelity.md` started, `docs/references.bib`. No
-protocol code. The source paper is not named (#23). Under the maintainer's
-2026-11-24 decision, the fidelity sheet is a v0 from public sources: QLFR
-(Zhou, Cao & Xiang, 2021) is the candidate for the energy-aware Bellman
-update, and Kaelbling, Littman & Moore (1996) give Boltzmann selection. Code
-waits for the maintainer to accept it (AGENTS.md golden rule 10).
+ladder from v0.1.0), `docs/fidelity.md`, `docs/references.bib`. The source
+paper is not named (#23). Under the maintainer's 2026-11-24 decisions, the
+fidelity sheet is a v0 from public sources: QLFR (Zhou, Cao & Xiang, 2021) is
+the candidate for the energy-aware Bellman update, and Kaelbling, Littman &
+Moore (1996) give Boltzmann selection. CodeRabbit plus green checks count as
+its review (#23 comment 7147226785). `core/` holds the v0 built on it:
+`QEnergyUpdater` and the reward (#39). There is no control header or adapter
+yet.
 
 History: the repository was created under swarm-routing/.github#672 (Phase 3,
 the hexagonal multi-runtime plan) as epic #3. swarm-routing/.github#54 and
@@ -30,11 +32,11 @@ comparator in swarm-routing/sim-tools (swarm-routing/sim-tools#34).
   neighbour's own best estimate; the comparator here.
 - **Bellman update**: the Q-learning (Watkins & Dayan, 1992) step that moves an
   estimate toward the observed cost plus the next node's best estimate.
-- **Energy-aware**: the update's target also weighs the neighbour's residual
-  energy (read through swarm-core's `IEnergyProvider`); how, is the source
-  paper's (#23).
+- **Energy-aware**: the reward is built from both nodes' residual energy (read
+  through swarm-core's `IEnergy`), as QLFR's eqs. 5–6 (`docs/fidelity.md`).
 - **Boltzmann selection**: choosing the next hop with probability proportional
-  to `exp(-Q/τ)` (softmax over the costs), with temperature τ.
+  to `exp(Q/T)` (softmax over the Q-values, which are negative costs), with
+  temperature T.
 
 ## Open questions
 

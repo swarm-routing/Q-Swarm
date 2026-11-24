@@ -3,8 +3,10 @@
 #
 # Q-Swarm's simulator-free core on its own: a static library and its tests,
 # with no simulator tree, on swarm-core's dual-licensed primitives. Today it
-# is the skeleton (#35): the package, its tests and its CI, no protocol code
-# (AGENTS.md golden rule 10: the fidelity sheet is reviewed first).
+# is v0 from public sources (#39, docs/fidelity.md): the energy-aware reward
+# (q-swarm-reward.*) and QEnergyUpdater (q-swarm-updater.*), the Q-table, the
+# Bellman update and Boltzmann next-hop selection, with their constants in
+# q-swarm-config.h.
 #
 #   cmake -S core -B build/core && cmake --build build/core && ctest --test-dir build/core
 #
@@ -100,6 +102,8 @@ set(QSWARM_WARNINGS -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Wold-s
                     -Wno-error=deprecated-declarations)
 
 add_library(q_swarm_core STATIC
+  q-swarm-reward.cc
+  q-swarm-updater.cc
   q-swarm-version.cc
 )
 add_library(qswarm::core ALIAS q_swarm_core)
@@ -122,6 +126,8 @@ target_compile_options(q_swarm_core PRIVATE ${QSWARM_WARNINGS})
 if(QSWARM_CORE_TESTS)
   add_executable(q_swarm_core_tests
     test/run-core-tests.cc
+    test/test-reward.cc
+    test/test-updater.cc
   )
   target_link_libraries(q_swarm_core_tests PRIVATE q_swarm_core)
   target_compile_definitions(q_swarm_core_tests PRIVATE QSWARM_CORE_EXPECTED_VERSION="${PROJECT_VERSION}")
@@ -138,6 +144,9 @@ if(QSWARM_CORE_INSTALL)
           ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
           LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
   install(FILES
+    q-swarm-config.h
+    q-swarm-reward.h
+    q-swarm-updater.h
     q-swarm-version.h
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/q-swarm-core)
   install(FILES LICENSE DESTINATION ${CMAKE_INSTALL_DATADIR}/doc/q-swarm-core)
