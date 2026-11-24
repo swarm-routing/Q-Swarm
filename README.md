@@ -3,9 +3,9 @@
 <!-- org-sync:begin badges -->
 | Group | Badges |
 | --- | --- |
-| Build | [![Built on: ns3-dev](https://img.shields.io/badge/built%20on-ns3--dev%20image-blue?logo=docker)](https://github.com/orgs/swarm-routing/packages/container/package/ns3-dev) |
+| Build | [![CI](https://github.com/swarm-routing/Q-Swarm/actions/workflows/core.yml/badge.svg)](https://github.com/swarm-routing/Q-Swarm/actions/workflows/core.yml) [![Built on: ns3-dev](https://img.shields.io/badge/built%20on-ns3--dev%20image-blue?logo=docker)](https://github.com/orgs/swarm-routing/packages/container/package/ns3-dev) |
 | Quality | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=swarm-routing_Q-Swarm&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=swarm-routing_Q-Swarm) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=swarm-routing_Q-Swarm&metric=bugs)](https://sonarcloud.io/summary/new_code?id=swarm-routing_Q-Swarm) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=swarm-routing_Q-Swarm&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=swarm-routing_Q-Swarm) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=swarm-routing_Q-Swarm&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=swarm-routing_Q-Swarm) [![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/swarm-routing/Q-Swarm?utm_source=oss&utm_medium=github&utm_campaign=swarm-routing%2FQ-Swarm&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)](https://coderabbit.ai) |
-| Release | [![Cite](https://img.shields.io/badge/cite-CITATION.cff-blue)](CITATION.cff) [![Licence: GPL-2.0-only, core/ MIT OR GPL-2.0-only](https://img.shields.io/badge/licence-GPL--2.0--only%2C%20core%2F%20MIT%20OR%20GPL--2.0--only-blue)](LICENSING.md) |
+| Release | [![Release](https://img.shields.io/github/v/release/swarm-routing/Q-Swarm?sort=semver&cacheSeconds=1800)](https://github.com/swarm-routing/Q-Swarm/releases) [![Cite](https://img.shields.io/badge/cite-CITATION.cff-blue)](CITATION.cff) [![Licence: GPL-2.0-only, core/ MIT OR GPL-2.0-only](https://img.shields.io/badge/licence-GPL--2.0--only%2C%20core%2F%20MIT%20OR%20GPL--2.0--only-blue)](LICENSING.md) |
 | Trust | [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/swarm-routing/Q-Swarm/badge)](https://scorecard.dev/viewer/?uri=github.com/swarm-routing/Q-Swarm) [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/17069/badge)](https://www.bestpractices.dev/projects/17069) |
 | Stack | [![C++23](https://img.shields.io/badge/C%2B%2B-23-blue?logo=cplusplus)](AGENTS.md) [![Runs on ns-3](https://img.shields.io/badge/runs%20on-ns--3-informational)](https://www.nsnam.org) |
 | Community & docs | [![Colony Arena: Q-Swarm](https://img.shields.io/badge/Colony%20Arena-project%20page-orange)](https://swarm-routing.github.io/projects/Q-Swarm/) [![Open RCAPA](https://img.shields.io/github/issues/swarm-routing/Q-Swarm/rcapa?label=open%20RCAPA&color=blue)](https://github.com/swarm-routing/Q-Swarm/blob/main/docs/rcapa/README.md) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow)](https://www.conventionalcommits.org) |
@@ -48,6 +48,8 @@ and preventive actions), and how: [docs/rcapa/README.md](docs/rcapa/README.md).
 
 <!-- org-sync:begin citing -->
 ## Releases & citing
+
+Versions follow [SemVer](https://semver.org). Each release is listed under [Releases](https://github.com/swarm-routing/Q-Swarm/releases), built by the org's release workflow and archived on [Zenodo](https://zenodo.org) with its own DOI.
 
 To cite this repository, use the “Cite this repository” button (from [CITATION.cff](CITATION.cff)). It has no DOI yet: the concept DOI appears here and in the badge above once Zenodo archives its first release.
 

@@ -13,9 +13,14 @@ PLATFORM  ?=
 # container kind: the image's Dockerfile and its build arguments
 DOCKERFILE ?= Dockerfile
 BUILD_ARGS ?=
+# swarm-core's core/ at the release swarm-core.lock names (its tag): the include
+# check's dependency, and core-test's swarm-core when neither VCPKG_ROOT nor
+# SWARM_CORE_DIR is given. Bumped with the lock by org-bot, never by hand.
+SWARM_CORE_SRC ?= $(HOME)/.cache/swarm-routing/swarm-core
+SWARM_CORE_REF ?= v2.0.0
 
 .DEFAULT_GOAL := help
-.PHONY: help build test lint format check clean shell ci headers
+.PHONY: help build test lint format check clean shell ci headers swarm-core core-test dist
 
 help: ## list the targets
 	@awk 'BEGIN{FS=":.*## "} /^[a-zA-Z0-9_-]+:.*## /{printf "  %-16s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -23,28 +28,63 @@ help: ## list the targets
 build: ## build what this repo ships
 	if [ -d ns3 ]; then docker run --rm -v "$(CURDIR):/src:ro" $(NS3_IMAGE) ns3-build-contrib q-swarm=/src/ns3; else echo "make build: no ns3/ module yet"; fi
 
-test: ## the fast tests CI runs on every PR
+test: core-test ## the fast tests CI runs on every PR
 	if [ -d ns3 ]; then docker run --rm -v "$(CURDIR):/src:ro" $(NS3_IMAGE) ns3-build-contrib --test q-swarm=/src/ns3; else echo "make test: no ns3/ module yet"; fi
 
-lint: ## static checks, no changes
-	git ls-files "*.h" "*.cc" "*.cpp" "*.hpp" | xargs -r clang-format --dry-run --Werror
+# the org's .clang-format, as core.yml checks it (a repository .clang-format wins)
+CLANG_STYLE = $(if $(wildcard .clang-format),file,file:$(ORG_DIR)/.clang-format)
 
-format: ## apply the formatters
-	git ls-files "*.h" "*.cc" "*.cpp" "*.hpp" | xargs -r clang-format -i
+lint: org-tools ## static checks, no changes
+	git ls-files "*.h" "*.cc" "*.cpp" "*.hpp" | xargs -r clang-format-18 --style="$(CLANG_STYLE)" --dry-run --Werror
+
+format: org-tools ## apply the formatters
+	git ls-files "*.h" "*.cc" "*.cpp" "*.hpp" | xargs -r clang-format-18 --style="$(CLANG_STYLE)" -i
 
 clean: ## remove build outputs
-	rm -rf build
+	rm -rf build dist
 
 shell: ## an interactive shell in the dev image with this repo at /src
 	@command -v docker >/dev/null || { echo "make shell: docker not found (Docker Desktop, Colima, or docker.io)" >&2; exit 127; }
 	docker run --rm -it -v "$(CURDIR):/src" -w /src $(if $(PLATFORM),--platform $(PLATFORM)) $(NS3_IMAGE) bash
 
-headers: org-tools ## licence headers (org rule 1): the Go gate CI runs, in docker or built with go
-	"$(ORG_DIR)/tools/checks/check-headers.sh" --dual core/ --core core/ .
+swarm-core:  # swarm-core at SWARM_CORE_REF (swarm-core.lock's tag)
+	@[ -d "$(SWARM_CORE_SRC)/.git" ] || git init -q "$(SWARM_CORE_SRC)"
+	@git -C "$(SWARM_CORE_SRC)" fetch -q --depth 1 https://github.com/swarm-routing/swarm-core $(SWARM_CORE_REF) && git -C "$(SWARM_CORE_SRC)" checkout -q --detach FETCH_HEAD
+
+headers: org-tools swarm-core ## licence headers (org rule 1): the Go gate CI runs, in docker or built with go
+	"$(ORG_DIR)/tools/checks/check-headers.sh" --dual core/ --core core/ --core-dep "$(SWARM_CORE_SRC)/core" .
 
 check: lint test headers org-sync-check ## everything CI gates on
 
 ci: check ## exactly what CI runs
+
+# core/ takes swarm-core from its vcpkg port (vcpkg.json, vcpkg-configuration.json)
+# when VCPKG_ROOT (a vcpkg checkout) is given, as core.yml; SWARM_CORE_DIR=<a
+# swarm-core checkout>/core builds on it instead; with neither, on swarm-core's
+# core/ at SWARM_CORE_REF (the lock's tag), so `make check` needs no vcpkg.
+VCPKG_ROOT ?=
+SWARM_CORE_DIR ?=
+# one build directory per source: CMake reads the vcpkg toolchain only on a
+# directory's first configure, so the two never share one
+CORE_BUILD = build/core$(if $(VCPKG_ROOT),,-local)
+CORE_SWARM = $(or $(SWARM_CORE_DIR),$(SWARM_CORE_SRC)/core)
+core-test: $(if $(VCPKG_ROOT)$(SWARM_CORE_DIR),,swarm-core) ## core/ alone, no simulator: CMake + ctest with CI's strict warnings
+	cmake -S core -B $(CORE_BUILD) $(if $(VCPKG_ROOT),-DSWARM_CORE_DIR= -DCMAKE_TOOLCHAIN_FILE=$(VCPKG_ROOT)/scripts/buildsystems/vcpkg.cmake,-DSWARM_CORE_DIR=$(CORE_SWARM)) \
+		&& cmake --build $(CORE_BUILD) && ctest --test-dir $(CORE_BUILD) --output-on-failure
+
+# The release asset for swarm-routing/.github's reusable-release.yml, which sets
+# RELEASE_VERSION (locally: .cz.toml's version). A git archive of the commit, so
+# only tracked files, deterministically: q-swarm-<ver>/ with core/ and its
+# LICENSE, swarm-core.lock, docs/, the licence files, README.md, AGENTS.md, the
+# Makefile and CHANGELOG.md (once the first bump writes it). The vcpkg port
+# q-swarm-core builds core/ from it.
+RELEASE_VERSION ?= $(shell sed -n 's/^version = "\(.*\)"$$/\1/p' .cz.toml)
+dist: ## the release asset in dist/: q-swarm-<ver>.tar.gz
+	rm -rf dist && mkdir -p dist
+	git archive --format=tar.gz --prefix=q-swarm-$(RELEASE_VERSION)/ -o dist/q-swarm-$(RELEASE_VERSION).tar.gz HEAD \
+		$$(git ls-tree --name-only HEAD core swarm-core.lock vcpkg.json vcpkg-configuration.json docs LICENSE LICENSE-MIT LICENSING.md README.md AGENTS.md Makefile CHANGELOG.md)
+	tar -tzf dist/q-swarm-$(RELEASE_VERSION).tar.gz | grep -qx 'q-swarm-$(RELEASE_VERSION)/core/LICENSE'
+	tar -tzf dist/q-swarm-$(RELEASE_VERSION).tar.gz | grep -qx 'q-swarm-$(RELEASE_VERSION)/swarm-core.lock'
 
 # org-sync:begin org-tools
 # The org tooling (check-headers, org-sync): a shallow clone, refreshed to ORG_REF,

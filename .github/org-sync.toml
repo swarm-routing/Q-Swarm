@@ -2,6 +2,8 @@
 kind = "protocol"
 # bestpractices.dev project (OpenSSF Best Practices badge; id read from the site's public JSON, swarm-routing/.github#765)
 bestpractices_project = "17069"
+# the CI badge: core/'s workflow (no ns-3 module yet, so no ns3.yml; the default ci.yml does not exist here)
+ci_workflow = "core.yml"
 # the C++ badge: core/'s standard, the one of the ns-3 release the org supports (swarm-routing/ns3-swarm-core#141)
 cxx = "23"
 # CITATION.cff seed and cite badge. Once Zenodo archives a release: set zenodo_concept = "<record id>"
@@ -19,9 +21,9 @@ description = "Q-Swarm: Q-routing with energy-aware Bellman updates and Boltzman
 homepage = "https://swarm-routing.github.io/projects/Q-Swarm/"
 topics = ["q-routing", "reinforcement-learning", "swarm-intelligence", "energy-aware-routing", "routing-protocol", "manet", "wireless-sensor-networks", "ns-3"]
 ruleset = "protocol"
-# Only checks that run on every PR today. Add the build and test checks (core, ns-3, ...)
-# once their workflows exist and run on pull_request and merge_group.
-required_checks = ["check / org-sync", "headers / licence", "title / title", "review / coderabbit"]
+# Only checks that run on every PR today (core.yml and swarm-core-pin.yml run on
+# pull_request and merge_group). Add the ns-3 checks once ns3/ and its workflow exist.
+required_checks = ["check / org-sync", "headers / licence", "title / title", "core", "swarm-core / pin", "review / coderabbit"]
 # Merge through a merge queue (swarm-routing/.github#130); every workflow behind a required
 # check also runs on merge_group.
 merge_queue = true
