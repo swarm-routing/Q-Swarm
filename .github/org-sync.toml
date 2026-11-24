@@ -6,12 +6,12 @@ title = "Q-Swarm"
 dual = ["core/"]
 
 [docs]
-arena_id = ""  # its id in swarm-routing.github.io site/hub/projects.json, once listed
+arena_id = "Q-Swarm"  # its id in swarm-routing.github.io site/hub/projects.json (swarm-routing/swarm-routing.github.io#312)
 
 [settings]
 # GitHub settings as code: swarm-routing/.github tools/repo-settings (swarm-routing/.github#117).
 description = "Q-Swarm: Q-routing with energy-aware Bellman updates and Boltzmann next-hop selection, bridging pheromone tables and lightweight on-node reinforcement learning, as a simulator-agnostic C++23 core on swarm-core's ports with thin ns-3 and Linux adapters (planned)."
-homepage = ""  # none until the site lists it (swarm-routing/swarm-routing.github.io site/hub/projects.json)
+homepage = "https://swarm-routing.github.io/projects/Q-Swarm/"
 topics = ["q-routing", "reinforcement-learning", "swarm-intelligence", "energy-aware-routing", "routing-protocol", "manet", "wireless-sensor-networks", "ns-3"]
 ruleset = "protocol"
 # Only checks that run on every PR today. Add the build and test checks (core, ns-3, ...)
