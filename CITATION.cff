@@ -22,3 +22,23 @@ version: "0.0.0"
 license: GPL-2.0-only
 repository-code: "https://github.com/swarm-routing/Q-Swarm"
 url: "https://github.com/swarm-routing/Q-Swarm"
+references:
+  - type: article
+    title: "Anypath Routing Protocol Design via Q-Learning for Underwater Sensor Networks"
+    authors:
+      - family-names: "Zhou"
+        given-names: "Yuan"
+      - family-names: "Cao"
+        given-names: "Tao"
+      - family-names: "Xiang"
+        given-names: "Wei"
+    journal: "IEEE Internet of Things Journal"
+    volume: "8"
+    issue: "10"
+    start: "8173"
+    end: "8190"
+    year: 2021
+    publisher:
+      name: "Institute of Electrical and Electronics Engineers (IEEE)"
+    doi: "10.1109/jiot.2020.3042901"
+    notes: "QLFR: the public candidate source for Q-Swarm v0 (energy-aware Bellman update, eqs. 5-8), read from its open preprint arXiv:2002.09623, until #23 names the paper"

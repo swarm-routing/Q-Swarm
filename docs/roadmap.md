@@ -33,7 +33,7 @@ only (CONTRIBUTING "Cutting a release").
 
 ```mermaid
 flowchart LR
-    P["<b>source paper</b><br/>named (#23)"]
+    P["<b>v0 sheet</b><br/>public sources<br/>(#23 open)"]
     F["<b>fidelity sheet</b><br/>reviewed"]
     V01["<b>v0.1.0</b><br/>core's first slice<br/>(ungated)"]
     V02["<b>v0.2.0</b><br/>gated<br/>(three gates)"]
@@ -48,15 +48,17 @@ flowchart LR
 ```
 
 Red blocks everything after it; amber is planned. Nothing is released yet.
-The source paper (#23) is the maintainer's to name; until then the fidelity
-sheet's paper rows stay `unknown` and no protocol code is written (AGENTS.md
-golden rule 10).
+The source paper (#23) is the maintainer's to name. Under the maintainer's
+decision of 2026-11-24 (swarm-routing/.github#881: protocols without a paper
+are built first from public sources), the fidelity sheet is a v0 from public
+sources. No protocol code is written until the maintainer accepts it
+(AGENTS.md golden rule 10).
 
 ## What each release must show to ship
 
 | Release | Exit criteria |
 |---|---|
-| **v0.1.0** "first slice" | (1) #23 is closed: the source paper is named and in `docs/references.bib`; (2) `docs/fidelity.md` is reviewed against it and accepted by the maintainer, every mechanism and parameter of the slice cited or a `repo choice`; (3) `core/`'s first slice (the Q-value table, the energy-aware Bellman update and Boltzmann next-hop selection on swarm-core's ports, and its versioned control header with roundtrip + fuzz tests) builds and tests alone in `core.yml`, with swarm-core's contract tests; (4) `core/` installs as the CMake package `q-swarm-core`, and the release's `vcpkg-ports: q-swarm-core` opens its port PR in swarm-routing/vcpkg-registry; (5) CI green on `main`. Ungated: it has not cleared org rule 6's three gates, and its release notes say so. |
+| **v0.1.0** "first slice" | (1) the source is settled: #23 names the paper, or the maintainer accepts the v0 sheet's public candidate (QLFR [ZCX21], decision of 2026-11-24 on swarm-routing/.github#881), its entries in `docs/references.bib`; (2) `docs/fidelity.md` is reviewed against it and accepted by the maintainer, every mechanism and parameter of the slice cited or a `repo choice`; (3) `core/`'s first slice (the Q-value table, the energy-aware Bellman update and Boltzmann next-hop selection on swarm-core's ports, and its versioned control header with roundtrip + fuzz tests) builds and tests alone in `core.yml`, with swarm-core's contract tests; (4) `core/` installs as the CMake package `q-swarm-core`, and the release's `vcpkg-ports: q-swarm-core` opens its port PR in swarm-routing/vcpkg-registry; (5) CI green on `main`. Ungated: it has not cleared org rule 6's three gates, and its release notes say so. |
 | **v0.2.0** "gated" | (1) the ns-3 adapter (`ns3/`, on swarm-core's `SwarmRoutingBase`) carries the core out with no constant of its own; (2) the per-PR delivery smoke runs; (3) the anchor, pre-registered on its issue from the fidelity sheet's "Anchor candidate" (the WSN convergecast with battery depletion of epic #3, Q-routing [BL93] as comparator), is read with ≥ 20 paired seeds: PASS, or a written infeasibility verdict in `docs/benchmarks/v0.2.0-anchor.md` with its raw cells; (4) every deviation from the paper is a row in `docs/fidelity.md`. |
 | **v1.0.0** | Wire format and `core/` API frozen; paper-faithful with the deviations documented; the three gates passed; green on the supported ns-3 release; a released run recorded in the benchmarks global suite. Follows swarm-core's API freeze. |
 
