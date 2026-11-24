@@ -42,3 +42,13 @@ references:
       name: "Institute of Electrical and Electronics Engineers (IEEE)"
     doi: "10.1109/jiot.2020.3042901"
     notes: "QLFR: the public candidate source for Q-Swarm v0 (energy-aware Bellman update, eqs. 5-8), read from its open preprint arXiv:2002.09623, until #23 names the paper"
+  - type: software
+    title: "swarm-core"
+    authors:
+      - family-names: "Joppi"
+        given-names: "Daniel Henrique"
+    year: 2026
+    publisher:
+      name: "Zenodo"
+    doi: "10.5281/zenodo.24476619"
+    notes: "The shared swarm-routing primitives core/ builds on (IEnergy, IRng, rouletteSelect), at the release swarm-core.lock names (v2.0.0)"

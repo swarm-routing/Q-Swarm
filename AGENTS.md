@@ -7,13 +7,14 @@ before changing anything. Org-wide conventions:
 
 ## What this repo is
 
-**Status: set up, v0 fidelity sheet from public sources, no protocol code
-(swarm-routing/.github#881, #35).** Q-Swarm names no paper (#23 stays open, the
-maintainer's). Under the maintainer's 2026-11-24 decision (protocols without a
-paper are built first from public sources, swarm-routing/.github#881),
-`docs/fidelity.md` is a v0 whose candidate source is QLFR [ZCX21], with
-Boltzmann selection from [KLM96]. No protocol code lands before the maintainer
-accepts it (golden rule 10). The plan is epic #3 and swarm-routing/.github#672.
+**Status: set up; v0 core from public sources (#39) (swarm-routing/.github#881,
+#35).** Q-Swarm names no paper (#23 stays open, the maintainer's). Under the
+maintainer's 2026-11-24 decisions (swarm-routing/.github#881; #23 comment
+7147226785), `docs/fidelity.md` is a v0 whose candidate source is QLFR [ZCX21],
+with Boltzmann selection from [KLM96]. `core/` holds the v0 built on it:
+`QEnergyUpdater`, the Q-table, the energy-aware Bellman update and Boltzmann
+next-hop selection. There is no control header or adapter yet. The plan is
+epic #3 and swarm-routing/.github#672.
 
 Q-Swarm: Q-routing with energy-aware Bellman updates and Boltzmann next-hop
 selection, bridging classic pheromone tables with lightweight on-node
@@ -25,10 +26,14 @@ ROADMAP decision 6).
 
 ```
 core/       simulator-agnostic core (no simulator headers; MIT OR GPL-2.0-only, core/LICENSE), on swarm-core's
-            dual-licensed core/ (its vcpkg port, at the release swarm-core.lock names). Today the skeleton only:
-  q-swarm-version.*            the package version, the library's one symbol until the first slice (golden rule 10)
+            dual-licensed core/ (its vcpkg port, at the release swarm-core.lock names). v0 from public sources (#39):
+  q-swarm-config.h             the constants, each naming its docs/fidelity.md row (paper or repo choice)
+  q-swarm-reward.*             the energy-aware reward, [ZCX21] eqs. 5-7 (hop count for depth)
+  q-swarm-updater.*            QEnergyUpdater: bounded neighbour table, the Bellman update ([ZCX21] eq. 8),
+                               Boltzmann next-hop selection ([KLM96] §2.2.2) on swarm-core's IEnergy/IRng/rouletteSelect
+  q-swarm-version.*            the package version
   q-swarm-coreConfig.cmake.in  the CMake package q-swarm-core, target qswarm::core (QSWARM_CORE_INSTALL), for its vcpkg port
-  test/       run-core-tests.cc (ctest); consumer-package/: a find_package(q-swarm-core) consumer
+  test/       run-core-tests.cc (ctest, the list), test-reward.cc, test-updater.cc; consumer-package/: a find_package consumer
 .github/workflows/core.yml            core/ alone: strict warnings, tests, ASan + UBSan, clang-tidy, the package and its consumer,
                                       make dist, clang-format (check `core`)
 .github/workflows/swarm-core-pin.yml  the swarm-core pin is one release and current (check `swarm-core / pin`)
@@ -164,7 +169,13 @@ Org-wide (1–9), then this repo's own.
     settle is `unknown` or `repo choice: <reason>`, never a guess; the source
     paper is #23's to name. Until it is named, the sheet is a v0 from public
     sources (maintainer decision 2026-11-24): every row cites a public
-    source by DOI or URL, never memory.
+    source by DOI or URL, never memory. For that public-source v0, CodeRabbit's
+    review plus green required checks count as the review, and the v0 code
+    may land once the sheet's PR merged (maintainer decision 2026-11-24,
+    https://github.com/swarm-routing/Q-Swarm/issues/23#issuecomment-7147226785).
+    The maintainer's own review and the choice of paper still gate the anchor
+    and any claim of paper fidelity, and each new mechanism's sheet rows land
+    before or with its code.
 11. **`core/` never includes a simulator header**; the adapter only converts
     headers, executes `RouteDecision`s and owns timers/queues (AntHocNet
     golden rules 1–2).
