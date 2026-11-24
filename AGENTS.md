@@ -7,15 +7,32 @@ before changing anything. Org-wide conventions:
 
 ## What this repo is
 
-**Status: planned (swarm-routing/.github#672).** Nothing is built yet: the plan is #3.
+**Status: set up, no protocol code (swarm-routing/.github#881, #35).** The
+source paper is not named yet (#23, the maintainer's); `docs/fidelity.md` is
+started with every paper row `unknown`, and no protocol code lands before it is
+reviewed (golden rule 10). The plan is epic #3 and swarm-routing/.github#672.
 
-Q-Swarm: Q-routing with energy-aware Bellman updates and Boltzmann next-hop selection, bridging classic pheromone tables with lightweight on-node reinforcement learning, for benchmark comparisons against the swarm protocols.
+Q-Swarm: Q-routing with energy-aware Bellman updates and Boltzmann next-hop
+selection, bridging classic pheromone tables with lightweight on-node
+reinforcement learning, for benchmark comparisons against the swarm protocols.
+Planned as a standalone hexagonal protocol: a simulator-agnostic `core/` on
+`swarm-core`'s ports, then thin ns-3 and Linux adapters. Q-routing itself
+(Boyan & Littman, 1993) stays a comparator in swarm-routing/sim-tools (org
+ROADMAP decision 6).
+
+```
+docs/       fidelity.md (paper -> implementation; paper rows unknown until #23), references.bib,
+            roadmap.md (the release ladder from v0.1.0), adr/, rcapa/
+CITATION.cff   citation metadata (org-sync seed; Commitizen keeps `version:`)
+```
 
 ## Build & verify
 
 ```bash
 make help    # the org's standard target names: build, test, lint, format, check, clean, shell, ci
 make check   # the local gates: lint, test, licence headers, org-sync (CI also checks the PR title and the review gate)
+python3 -I ~/.cache/swarm-routing/dotgithub/tools/fidelity/fidelity.py check docs/fidelity.md   # the sheet's shape
+python3 -I ~/.cache/swarm-routing/dotgithub/tools/fidelity/fidelity.py bib check .              # docs/references.bib
 ```
 
 ## Golden rules (invariants — do not break)
@@ -83,6 +100,19 @@ Org-wide (1–9), then this repo's own.
 9. **Nothing shipped depends on `.claude/`.** Skills hold procedures; scripts
    that anything shipped needs live in `tools/` (AntHocNet ADR-0014).
 <!-- org-sync:end org-rules -->
+10. **Fidelity sheet before code.** No protocol code (in `core/`, an adapter or
+    a benchmark arm) lands before `docs/fidelity.md` is reviewed against the
+    source paper and accepted by the maintainer. A row the paper does not
+    settle is `unknown` or `repo choice: <reason>`, never a guess; the source
+    paper is #23's to name.
+11. **`core/` never includes a simulator header**; the adapter only converts
+    headers, executes `RouteDecision`s and owns timers/queues (AntHocNet
+    golden rules 1–2).
+12. **Paper fidelity is written down.** Every parameter default cites its
+    paper section or is marked a repo choice; deviations live in
+    `docs/fidelity.md`. Q-routing [BL93] and Q-learning [WD92] are background
+    and comparator, never the source of a Q-Swarm value unless the source
+    paper takes it from them.
 
 ## Conventions
 
@@ -318,5 +348,11 @@ chat, not the record.
 | You want to… | Go to |
 |--------------|-------|
 | The org's invariants, labels, issue shape | [`swarm-routing/.github` CONTRIBUTING.md](https://github.com/swarm-routing/.github/blob/main/CONTRIBUTING.md) |
+| The plan | epic #3, swarm-routing/.github#672 (decisions 6 and 18), the set-up swarm-routing/.github#881 |
+| The source paper (not named yet) | #23, the maintainer's decision |
+| What the paper specifies, and what is still unknown | [`docs/fidelity.md`](docs/fidelity.md), [`docs/references.bib`](docs/references.bib) |
+| Know which release a piece of work serves | [`docs/roadmap.md`](docs/roadmap.md): the release ladder from v0.1.0, exit criteria, non-goals; issues carry `release:` labels |
+| Shared primitives | `swarm-routing/swarm-core` (its vcpkg port in `swarm-routing/vcpkg-registry`) |
+| The Q-routing comparator | `swarm-routing/sim-tools` (swarm-routing/sim-tools#34) |
 | Record an architecture decision | [`docs/adr/`](docs/adr/) (`0000-template.md`) |
 | Pick up open work | this repo's issues — highest open `priority:P*` first; newest open `handoff` issue for work in flight |
