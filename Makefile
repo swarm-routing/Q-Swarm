@@ -17,7 +17,7 @@ BUILD_ARGS ?=
 # check's dependency, and core-test's swarm-core when neither VCPKG_ROOT nor
 # SWARM_CORE_DIR is given. Bumped with the lock by org-bot, never by hand.
 SWARM_CORE_SRC ?= $(HOME)/.cache/swarm-routing/swarm-core
-SWARM_CORE_REF ?= v2.0.0
+SWARM_CORE_REF ?= v2.1.0
 
 .DEFAULT_GOAL := help
 .PHONY: help build test lint format check clean shell ci headers swarm-core core-test dist
