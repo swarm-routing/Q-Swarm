@@ -6,7 +6,9 @@ Every row cites its source (`[KEY] §x`, `Table N`, `Fig. N`, `eq. N`), or says
 `swarm-routing/.github` `tools/fidelity/fidelity.py check`.
 
 **Status: v0, from public sources. Reviewed as a v0 (CodeRabbit and green
-required checks, #43); the maintainer's own review is still to come.**
+required checks, #43); QLFR [ZCX21] accepted by the maintainer as v0's source
+on 2026-11-25 (#23 comment 7148364548). The maintainer's line-by-line review is
+still to come.**
 Q-Swarm names no paper of its own (#23 stays open for the maintainer). On
 2026-11-24 the maintainer decided that the protocols without a paper are built
 first from public sources: "For the protocols without a paper, build the first
@@ -28,7 +30,8 @@ selection, for a many-to-one sensor network that drains its batteries. No
 public paper found has all three. This v0 takes each mechanism from the best
 public text that specifies it:
 
-- **[ZCX21] QLFR is the candidate source paper**, for the Q-table, the
+- **[ZCX21] QLFR is v0's source paper** (accepted by the maintainer on
+  2026-11-25, #23), for the Q-table, the
   energy-aware Bellman update and how neighbours share their values. Its
   preprint (arXiv:2002.09623) is open and states every equation used here
   (eqs. 3–8, §3.2, §4.2, §5.2, Table 2). It is a per-node, sink-bound
