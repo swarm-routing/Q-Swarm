@@ -19,7 +19,7 @@ names no paper of its own
 maintainer). Following the maintainer's decision of 2026-11-24 (protocols
 without a paper are built first from public sources), the
 [fidelity sheet](docs/fidelity.md) is a **v0 from public and secondary
-sources**. Its candidate source is QLFR (Zhou, Cao & Xiang, 2021,
+sources**. Its source, accepted by the maintainer on 2026-11-25, is QLFR (Zhou, Cao & Xiang, 2021,
 <https://doi.org/10.1109/jiot.2020.3042901>) for the energy-aware Bellman
 update, and Boltzmann exploration (Kaelbling, Littman & Moore, 1996,
 <https://doi.org/10.1613/jair.301>) for next-hop selection. `core/` holds the

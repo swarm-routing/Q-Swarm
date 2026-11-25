@@ -10,7 +10,7 @@ before changing anything. Org-wide conventions:
 **Status: set up; v0 core from public sources (#39) (swarm-routing/.github#881,
 #35).** Q-Swarm names no paper (#23 stays open, the maintainer's). Under the
 maintainer's 2026-11-24 decisions (swarm-routing/.github#881; #23 comment
-7147226785), `docs/fidelity.md` is a v0 whose candidate source is QLFR [ZCX21],
+7147226785), `docs/fidelity.md` is a v0 whose source is QLFR [ZCX21] (accepted 2026-11-25, #23),
 with Boltzmann selection from [KLM96]. `core/` holds the v0 built on it:
 `QEnergyUpdater`, the Q-table, the energy-aware Bellman update and Boltzmann
 next-hop selection. There is no control header or adapter yet. The plan is
@@ -38,7 +38,7 @@ core/       simulator-agnostic core (no simulator headers; MIT OR GPL-2.0-only, 
                                       make dist, clang-format (check `core`)
 .github/workflows/swarm-core-pin.yml  the swarm-core pin is one release and current (check `swarm-core / pin`)
 .github/workflows/release.yml         reusable-release.yml, vcpkg-ports: q-swarm-core (on the maintainer's request only)
-docs/       fidelity.md (v0 from public sources: candidate QLFR [ZCX21]; #23 open), references.bib,
+docs/       fidelity.md (v0 from public sources: QLFR [ZCX21], accepted; #23 open for the anchor), references.bib,
             roadmap.md (the release ladder from v0.1.0), adr/, rcapa/
 CITATION.cff   citation metadata (org-sync seed; Commitizen keeps `version:`)
 ```
@@ -420,7 +420,7 @@ chat, not the record.
 |--------------|-------|
 | The org's invariants, labels, issue shape | [`swarm-routing/.github` CONTRIBUTING.md](https://github.com/swarm-routing/.github/blob/main/CONTRIBUTING.md) |
 | The plan | epic #3, swarm-routing/.github#672 (decisions 6 and 18), the set-up swarm-routing/.github#881 |
-| The source paper (not named yet; v0 candidate QLFR) | #23, the maintainer's decision; `docs/fidelity.md` "The candidate source, and why" |
+| The source paper (v0: QLFR, accepted 2026-11-25; #23 open for an anchor paper) | #23, the maintainer's decision; `docs/fidelity.md` "The candidate source, and why" |
 | What the paper specifies, and what is still unknown | [`docs/fidelity.md`](docs/fidelity.md), [`docs/references.bib`](docs/references.bib) |
 | Know which release a piece of work serves | [`docs/roadmap.md`](docs/roadmap.md): the release ladder from v0.1.0, exit criteria, non-goals; issues carry `release:` labels |
 | Shared primitives | `swarm-routing/swarm-core` (its vcpkg port in `swarm-routing/vcpkg-registry`) |
