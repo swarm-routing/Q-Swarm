@@ -24,6 +24,11 @@ ruleset = "protocol"
 # Only checks that run on every PR today (core.yml and swarm-core-pin.yml run on
 # pull_request and merge_group). Add the ns-3 checks once ns3/ and its workflow exist.
 required_checks = ["check / org-sync", "headers / licence", "title / title", "core", "swarm-core / pin", "review / coderabbit"]
+# Checks that run on main but gate no merge (swarm-routing/.github#776), as ARA, which
+# requires none of them: CodeQL, Scorecard, SonarCloud and CodeRabbit's own check run report
+# (review / coderabbit is the gate); doxygen runs on pull_request but not merge_group;
+# autofix / pick and notify are bot jobs.
+optional_checks = ["Analyze (*)", "analysis / Scorecard analysis", "autofix / pick", "CodeRabbit", "doxygen / doxygen", "notify", "SonarCloud Code Analysis"]
 # Merge through a merge queue (swarm-routing/.github#130); every workflow behind a required
 # check also runs on merge_group.
 merge_queue = true
